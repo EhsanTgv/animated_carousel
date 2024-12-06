@@ -1,22 +1,33 @@
+import 'package:animated_carousel/cubit/carousel_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CarouselCard extends StatelessWidget {
   final IconData icon;
   final String label;
+  final int index;
 
   const CarouselCard({
     required this.icon,
     required this.label,
+    required this.index,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool isSelected = context.select(
+      (CarouselCubit c) => c.state.selectedCardIndex == index,
+    );
+
     return Container(
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Colors.white, width: 4),
+          side: BorderSide(
+            color: isSelected ? Colors.blue.shade400 : Colors.white,
+            width: 4,
+          ),
         ),
         gradient: LinearGradient(
           begin: Alignment.topLeft,
