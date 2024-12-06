@@ -30,12 +30,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  static const cards = [
+    CarouselCard(icon: Icons.bolt_outlined, label: "Power"),
+    CarouselCard(icon: Icons.edit_outlined, label: "Edit"),
+    CarouselCard(icon: Icons.home_outlined, label: "Home"),
+  ];
+
+  final carouselController = PageController(viewportFraction: 0.7);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Carousel app"),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              children: [
+                const SizedBox(height: 36),
+                ExpandablePageView.builder(
+                  controller: carouselController,
+                  clipBehavior: Clip.none,
+                  itemCount: cards.length,
+                  itemBuilder: (_, index) => cards[index],
+                ),
+                const Spacer(),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
