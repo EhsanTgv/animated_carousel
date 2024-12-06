@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animated_carousel/carousel_card.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +57,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: carouselController,
                   clipBehavior: Clip.none,
                   itemCount: cards.length,
-                  itemBuilder: (_, index) => cards[index],
+                  itemBuilder: (_, index) {
+                    if (!carouselController.position.haveDimensions) {
+                      return const SizedBox();
+                    }
+                    return AnimatedBuilder(
+                      animation: carouselController,
+                      builder: (_, __) => Transform.scale(
+                        scale: max(
+                          0.8,
+                          (1 - (carouselController.page! - index).abs() / 2),
+                        ),
+                        child: cards[index],
+                      ),
+                    );
+                  },
                 ),
                 const Spacer(),
               ],
